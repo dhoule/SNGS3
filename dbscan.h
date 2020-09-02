@@ -9,61 +9,57 @@
 
 #include "clusters.h"
 
-namespace NWUClustering
+namespace NWUClustering {
 
-{
+  class ClusteringAlgo : public Clusters {
 
-	class ClusteringAlgo : public Clusters
+  public:
 
-	{
+    ClusteringAlgo(){ }
 
-	public:
+    virtual ~ClusteringAlgo();
 
-		ClusteringAlgo(){ }
+    // functions for dbscan algorithm
+    void set_dbscan_params(double eps, int minPts, int seeds);
 
-		virtual ~ClusteringAlgo();
+    void  writeClusters(ostream& o); // regular dbscan algorithm
 
-		// functions for dbscan algorithm
-		void set_dbscan_params(double eps, int minPts, int seeds);
+    void    writeClusters_uf(ostream& o); // union find dbscan algorithm
 
-		void 	writeClusters(ostream& o); // regular dbscan algorithm
+  public:
 
-		void    writeClusters_uf(ostream& o); // union find dbscan algorithm
+    // parameters to run dbscan algorithm
 
-	public:
+    double  m_epsSquare;
 
-		// parameters to run dbscan algorithm
+    int   m_minPts;
 
-		double 	m_epsSquare;
+    int m_seeds;
 
-		int 	m_minPts;
+    //int     m_parcent_of_data;
+    // noise vector
 
-		int m_seeds;
+    vector<bool> m_noise;
 
-		//int     m_parcent_of_data;
-		// noise vector
+    // noise vector
 
-        	vector<bool> m_noise;
-
-	       	// noise vector
-
-        	vector<bool> m_visited;
+    vector<bool> m_visited;
 
 
 
-		vector <int> m_parents;
+    vector <int> m_parents;
 
-		vector <int> m_corepoint;
+    vector <int> m_corepoint;
 
-		vector <int> m_member;
+    vector <int> m_member;
 
-	};	
+  };  
 
 
 
-	void run_dbscan_algo_uf(ClusteringAlgo& dbs); // union find dbscan algorithm
+  void run_dbscan_algo_uf(ClusteringAlgo& dbs); // union find dbscan algorithm
 
-	void run_dbscan_algo(ClusteringAlgo& dbs); // regular dbscan algorithm
+  void run_dbscan_algo(ClusteringAlgo& dbs); // regular dbscan algorithm
 
 };
 
