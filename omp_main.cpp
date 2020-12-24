@@ -22,7 +22,6 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 //./omp_dbscan -i clus50k.bin -b -m 5 -n 1700 -e 25 -t 1 -o test
-
 #include "dbscan.h"
 #include "utils.h"
 #include "kdtree2.hpp"

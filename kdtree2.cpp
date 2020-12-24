@@ -8,7 +8,6 @@
 
 #include "kdtree2.hpp"
 
-
 // utility
 
 inline float squared(const float x) {

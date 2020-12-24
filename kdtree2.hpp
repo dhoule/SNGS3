@@ -8,7 +8,6 @@
 // with additional provisions in that same file.
 
 
-
 //
 // Implement a kd tree for fast searching of points in a fixed data base
 // in k-dimensional Euclidean space.

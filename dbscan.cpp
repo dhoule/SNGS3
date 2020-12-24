@@ -21,7 +21,7 @@ namespace NWUClustering
 		m_corepoint.clear();
 		m_member.clear();
 	}
-
+ 
 	bool compareByIdx(const kdtree2_result &a, const kdtree2_result &b){
 		return a.idx < b.idx;
 	}

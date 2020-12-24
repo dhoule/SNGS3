@@ -22,7 +22,6 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 
-
 #include "clusters.h"
 
 namespace NWUClustering

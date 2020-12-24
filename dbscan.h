@@ -10,7 +10,6 @@
 #include "clusters.h"
 
 namespace NWUClustering
-
 {
 
 	class ClusteringAlgo : public Clusters
