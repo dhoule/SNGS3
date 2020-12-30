@@ -21,33 +21,37 @@
 /*   Storage and Analysis (Supercomputing, SC'12), pp.62:1-62:11, 2012.      */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+
 #ifndef _CLUSTER_
 #define _CLUSTER_
 
 #include "utils.h"
 #include "kdtree2.hpp"
 
-namespace NWUClustering {
-  struct Points {
+namespace NWUClustering
+{
+  struct Points
+  {
     array2dfloat m_points;
     int m_i_dims;
     int m_i_num_points;
   };
 
-  class Clusters {
-    public:
-      Clusters():m_pts(NULL),m_kdtree(NULL){ }
-      virtual ~Clusters();
+  class Clusters
+  {
+  public:
+    Clusters():m_pts(NULL),m_kdtree(NULL){ }
+    virtual ~Clusters();
 
-      int     read_file(char* infilename, int isBinaryFile);
-      int     build_kdtree();
-      
-    public:
-      Points*   m_pts;
-      kdtree2*  m_kdtree;
-      vector <int>  m_pid_to_cid; // point id to cluster id
-      vector <vector <int> > m_clusters;
-      int     m_parcent_of_data;
+    int     read_file(char* infilename, int isBinaryFile);
+    int     build_kdtree();
+    
+  public:
+    Points*   m_pts;
+    kdtree2*  m_kdtree;
+    vector <int>  m_pid_to_cid; // point id to cluster id
+    vector <vector <int> > m_clusters;
+    int     m_parcent_of_data;
   };
 };
 

@@ -21,6 +21,7 @@
 /*   Storage and Analysis (Supercomputing, SC'12), pp.62:1-62:11, 2012.      */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+
 #ifndef _UTILS_
 #define _UTILS_
 
@@ -36,7 +37,7 @@
 #include <getopt.h>
 using namespace std;
 typedef float point_coord_type;
-typedef vector <vector <point_coord_type> > array2dfloat;
+typedef vector <vector <point_coord_type> >         array2dfloat;
 float findKMedian(vector<float>& A,int K);
 
 #endif

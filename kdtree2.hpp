@@ -8,6 +8,7 @@
 // with additional provisions in that same file.
 
 
+
 //
 // Implement a kd tree for fast searching of points in a fixed data base
 // in k-dimensional Euclidean space.
@@ -113,7 +114,8 @@ public:
   void n_nearest(vector<float>& qv, int nn, kdtree2_result_vector& result);
   // search for n nearest to a given query vector 'qv'.
 
-  void n_nearest_around_point(int idxin, int correltime, int nn, kdtree2_result_vector& result);
+  void n_nearest_around_point(int idxin, int correltime, int nn,
+            kdtree2_result_vector& result);
   // search for 'nn' nearest to point [idxin] of the input data, excluding
   // neighbors within correltime 
   
@@ -121,7 +123,8 @@ public:
   // search for all neighbors in ball of size (square Euclidean distance)
   // r2.   Return number of neighbors in 'result.size()', 
 
-  void r_nearest_around_point(int idxin, int correltime, float r2, kdtree2_result_vector& result);
+  void r_nearest_around_point(int idxin, int correltime, float r2,
+            kdtree2_result_vector& result);
   // like 'r_nearest', but around existing point, with decorrelation
   // interval. 
 

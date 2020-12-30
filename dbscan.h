@@ -9,9 +9,13 @@
 
 #include "clusters.h"
 
-namespace NWUClustering {
+namespace NWUClustering
 
-  class ClusteringAlgo : public Clusters {
+{
+
+  class ClusteringAlgo : public Clusters
+
+  {
 
   public:
 
@@ -39,11 +43,11 @@ namespace NWUClustering {
     //int     m_parcent_of_data;
     // noise vector
 
-    vector<bool> m_noise;
+          vector<bool> m_noise;
 
-    // noise vector
+          // noise vector
 
-    vector<bool> m_visited;
+          vector<bool> m_visited;
 
 
 

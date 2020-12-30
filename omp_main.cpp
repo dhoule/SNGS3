@@ -22,24 +22,26 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 //./omp_dbscan -i clus50k.bin -b -m 5 -n 1700 -e 25 -t 1 -o test
+
 #include "dbscan.h"
 #include "utils.h"
 #include "kdtree2.hpp"
-static void usage(char *argv0) {
+static void usage(char *argv0) 
+{
     const char *params =
-      "Usage: %s [switches] -i filename -b -m minpts -n seeds -e epsilon -o output -t threads\n"
+  "Usage: %s [switches] -i filename -b -m minpts -n seeds -e epsilon -o output -t threads\n"
       " -i filename : file containing input data to be clustered\n"
       " -b    : input file is in binary format (default no)\n"
-      " -m minpts : input parameter of DBSCAN, min points to form a cluster, e.g. 2\n"
-      "   -n seeds    : input parameter of Sow-n-Grow, number of seeds to be chosen from each partition of data\n"
-      " -e epsilon  : input parameter of DBSCAN, radius or threshold on neighbourhoods retrieved, e.g. 0.8\n"
-      " -o output : clustering results, format, (each line, point id, clusterid)\n"
-      " -t threads  : number of threads to be employed\n\n";
+  " -m minpts : input parameter of DBSCAN, min points to form a cluster, e.g. 2\n"
+  "   -n seeds    : input parameter of Sow-n-Grow, number of seeds to be chosen from each partition of data\n"
+  " -e epsilon  : input parameter of DBSCAN, radius or threshold on neighbourhoods retrieved, e.g. 0.8\n"
+  " -o output : clustering results, format, (each line, point id, clusterid)\n"
+  " -t threads  : number of threads to be employed\n\n";
     fprintf(stderr, params, argv0);
     exit(-1);
 }
-
-int main(int argc, char** argv) {
+int main(int argc, char** argv)
+{
   double  seconds;
   int   opt;
   int   minPts, threads;
@@ -57,43 +59,44 @@ int main(int argc, char** argv) {
   outfilename   = NULL;
   infilename  = NULL;
   threads   = -1;
-  
-  while ((opt=getopt(argc,argv,"i:t:d:p:m:n:e:o:v:z:bxghncul"))!= EOF) {
-    switch (opt) {
-      case 'i':
-        infilename = optarg;
-        break;
-      case 't':
-        threads = atoi(optarg);
-        break;
-      case 'b':
-        isBinaryFile = 1;
-        break;
-      case 'm':
-        minPts = atoi(optarg);
-        break;
-      case 'n':
-        seeds = atoi(optarg);
-        break;
-      case 'e':
-        eps  = atof(optarg);
-        break;
-      case 'o':
-        outfilename = optarg;
-        break;
-      case 'c':
-        classical = 1;
-        break;
-      case '?':
-        usage(argv[0]);
-        break;
-      default:
-        usage(argv[0]);
-        break;
-    }
+      while ((opt=getopt(argc,argv,"i:t:d:p:m:n:e:o:v:z:bxghncul"))!= EOF)
+      {
+    switch (opt)
+          {
+            case 'i':
+                infilename = optarg;
+                  break;
+        case 't':
+          threads = atoi(optarg);
+          break;
+          case 'b':
+                isBinaryFile = 1;
+                break;
+              case 'm':
+                minPts = atoi(optarg);
+                break;
+              case 'n':
+                seeds = atoi(optarg);
+                break;
+            case 'e':
+                eps  = atof(optarg);
+                break;
+        case 'o':
+          outfilename = optarg;
+          break;
+        case 'c':
+          classical = 1;
+          break;
+              case '?':
+                usage(argv[0]);
+                break;
+              default:
+                usage(argv[0]);
+                break;
+        }
   }
-
-  if(infilename == NULL || minPts < 0 || eps < 0 || seeds < 0 || threads < 1) {
+  if(infilename == NULL || minPts < 0 || eps < 0 || seeds < 0 || threads < 1)
+  {
     usage(argv[0]);
     exit(-1);
   }
@@ -108,7 +111,7 @@ int main(int argc, char** argv) {
   //    exit(-1);
   //cout << "Reading input data file took " << omp_get_wtime() - start << " seconds." << endl;
   // build kdtree for the points
-  //  start = omp_get_wtime();
+//  start = omp_get_wtime();
   //dbs.build_kdtree();
   //cout << "Build kdtree took " << omp_get_wtime() - start << " seconds." << endl;
   //start = omp_get_wtime();
@@ -150,6 +153,10 @@ int main(int argc, char** argv) {
     cout << "DBSCAN (total) took " << time << " seconds." << endl;
     dbs.writeClusters_uf(outputfile);
     outputfile << endl;
+
+
+  
+
   }
 
   /*for(int n=100; n<15001; n=n+100){
@@ -171,7 +178,7 @@ int main(int argc, char** argv) {
     outputfile << endl;
 
   }
-  
+/*
   for(int n=1000; n<2001; n=n+100){
     seeds = n;
     omp_set_num_threads(threads);
@@ -190,8 +197,7 @@ int main(int argc, char** argv) {
     dbs.writeClusters_uf(outputfile);
     outputfile << endl;
 
-  } 
-  */
+  } */
   outputfile.close();
   //run_dbscan_algo_uf(dbs);
   //cout << "DBSCAN (total) took " << omp_get_wtime() - start << " seconds." << endl;

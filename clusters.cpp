@@ -22,30 +22,38 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 
+
 #include "clusters.h"
 
-namespace NWUClustering {
-  Clusters::~Clusters() {
-    if(m_pts) {
+namespace NWUClustering
+{
+  Clusters::~Clusters()
+  {
+    if(m_pts)
+    {
       m_pts->m_points.clear();
       delete m_pts;
       m_pts = NULL;
     }
 
-    if(m_kdtree) {
+    if(m_kdtree)
+    {
       delete m_kdtree;
       m_kdtree = NULL;
     }
   }
 
-  int Clusters::read_file(char* infilename, int isBinaryFile) {
+  int Clusters::read_file(char* infilename, int isBinaryFile)
+  {
     ssize_t numBytesRead;
     int     i, j;
     int num_points, dims;
 
-    if(isBinaryFile == 1) {
+    if(isBinaryFile == 1)
+          {
       ifstream file (infilename, ios::in|ios::binary);
-      if(file.is_open()) {
+      if(file.is_open())
+        {
         file.read((char*)&num_points, sizeof(int));
         file.read((char*)&dims, sizeof(int));
             
@@ -55,36 +63,43 @@ namespace NWUClustering {
         m_pts = new Points;       
 
         m_pts->m_i_dims = dims;
-        m_pts->m_i_num_points = num_points;
+                    m_pts->m_i_num_points = num_points;
         
         //allocate memory for the points
-        m_pts->m_points.resize(num_points);
-        for(int ll = 0; ll < num_points; ll++)
-          m_pts->m_points[ll].resize(dims);
+                                m_pts->m_points.resize(num_points);
+                                for(int ll = 0; ll < num_points; ll++)
+                                        m_pts->m_points[ll].resize(dims);
 
         
         point_coord_type* pt;         
-        pt = (point_coord_type*) malloc(dims * sizeof(point_coord_type));
-                        
-        for (i = 0; i < num_points; i++) {
-          file.read((char*)pt, dims*sizeof(point_coord_type));
         
-          for (j = 0; j < dims; j++)
-            m_pts->m_points[i][j] = pt[j];
-        }
+                          pt = (point_coord_type*) malloc(dims * sizeof(point_coord_type));
+                        
+                          for (i = 0; i < num_points; i++)
+                          {
+                                  file.read((char*)pt, dims*sizeof(point_coord_type));
+                                
+                                  for (j = 0; j < dims; j++)
+                                          m_pts->m_points[i][j] = pt[j];
+                          }
       
         delete [] pt; 
         file.close();
-      } else {
+        }
+      else
+      {
         cout << "Error: no such file: " << infilename << endl;
         return -1;
       }
-    } else {
+    }
+    else
+    {
       string line, line2, buf;
       ifstream file(infilename);
       stringstream ss;
 
-      if (file.is_open()) {
+      if (file.is_open())
+        {
         // get the first line and get the dimensions
         getline(file, line);
         line2 = line;
@@ -97,9 +112,10 @@ namespace NWUClustering {
 
         // get point count
         num_points = 0;
-        while (!file.eof()) {
+        while (!file.eof())
+        {
           if(line.length() == 0)
-            continue;
+                                                continue;
           //cout << line << endl;
           num_points++;
           getline(file, line);
@@ -110,8 +126,8 @@ namespace NWUClustering {
         // allocate memory for points
         m_pts = new Points;
         m_pts->m_points.resize(num_points);
-        for(int ll = 0; ll < num_points; ll++)
-          m_pts->m_points[ll].resize(dims);
+                                for(int ll = 0; ll < num_points; ll++)
+                                        m_pts->m_points[ll].resize(dims);
         
 
         file.clear();
@@ -120,7 +136,8 @@ namespace NWUClustering {
         getline(file, line);
 
         i = 0;
-        while (!file.eof()) {
+            while (!file.eof())
+            {
           if(line.length() == 0)
             continue;
 
@@ -129,37 +146,43 @@ namespace NWUClustering {
           ss << line;
 
           j = 0;
-          while(ss >> buf && j < dims) { // get the corordinate of the points
+          while(ss >> buf && j < dims) // get the corordinate of the points
+          {
             m_pts->m_points[i][j] = atof(buf.c_str());
             j++;
           }
           
           i++;
           getline(file, line);
-        }
+            }
 
-        file.close();
+            file.close();
         
-        m_pts->m_i_dims = dims;
-        m_pts->m_i_num_points = num_points;
-      } else {
-        cout << "Error: no such file: " << infilename << endl;
-        return -1;
+                                m_pts->m_i_dims = dims;
+                                m_pts->m_i_num_points = num_points;
+      }                
+      else
+      {
+                                cout << "Error: no such file: " << infilename << endl;
+                                return -1;
       }     
     }
     
     return 0;   
   }
 
-  int Clusters::build_kdtree() {
-    if(m_pts == NULL) {
+  int Clusters::build_kdtree()
+  {
+    if(m_pts == NULL)
+    {
       cout << "Point set is empty" << endl;
       return -1;
     }
 
     m_kdtree = new kdtree2(m_pts->m_points, false);
     
-    if(m_kdtree == NULL) {
+    if(m_kdtree == NULL)
+    {
       cout << "Falied to allocate new kd tree" << endl;
       return -1;
     }
