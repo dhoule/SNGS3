@@ -50,11 +50,11 @@ float kdtree2_result_vector::max_value() {
   return( (*begin()).dis ); // very first element
 }
 
-void kdtree2_result_vector::
-push_element_and_heapify(kdtree2_result& e) {
+void kdtree2_result_vector::push_element_and_heapify(kdtree2_result& e) {
   push_back(e); // what a vector does.
   push_heap( begin(), end() ); // and now heapify it, with the new elt.
 }
+
 float kdtree2_result_vector::replace_maxpri_elt_return_new_maxpri(kdtree2_result& e) {
   // remove the maximum priority element on the queue and replace it
   // with 'e', and return its priority.
@@ -75,8 +75,8 @@ float kdtree2_result_vector::replace_maxpri_elt_return_new_maxpri(kdtree2_result
 // constructor
 kdtree2::kdtree2(array2dfloat& data_in,bool rearrange_in,int dim_in)
   : the_data(data_in),
-//    N  ( data_in.shape()[0] ),
-//    dim( data_in.shape()[1] ),
+  //    N  ( data_in.shape()[0] ),
+  //    dim( data_in.shape()[1] ),
     N (data_in.size()), //N  ( data_in.shape()[0] ),
     dim (data_in[0].size()), //dim( data_in.shape()[1] ),
     sort_results(false),
@@ -220,12 +220,11 @@ kdtree2_node* kdtree2::build_tree_for_range(int l, int u, kdtree2_node* parent) 
           sum += the_data[ind[k]][c];
         }
         average = sum / static_cast<float> (u-l+1);
-     
       } else {
         // average of top and bottom nodes.
         average = (node->box[c].upper + node->box[c].lower)*0.5; 
       }
-    
+  
       m = select_on_coordinate_value(c,average,l,u);
 
       // instead of mean, use median
@@ -244,8 +243,8 @@ kdtree2_node* kdtree2::build_tree_for_range(int l, int u, kdtree2_node* parent) 
       m = select_on_coordinate_value(c,median,l,u);
       //data.clear();
 
-        // END OF ADDITIONAL CODE 
-        */ 
+          // END OF ADDITIONAL CODE 
+          */ 
     }
 
     if(m <=l || m >= u) {
@@ -289,8 +288,10 @@ kdtree2_node* kdtree2::build_tree_for_range(int l, int u, kdtree2_node* parent) 
       // N, not linear as would be from naive method.
       //
       for (int i=0; i<dim; i++) {
-        node->box[i].upper = max(node->left->box[i].upper, node->right->box[i].upper);
-        node->box[i].lower = min(node->left->box[i].lower, node->right->box[i].lower);
+        node->box[i].upper = max(node->left->box[i].upper,
+        node->right->box[i].upper);
+        node->box[i].lower = min(node->left->box[i].lower,
+        node->right->box[i].lower);
       }
     }
   }
@@ -323,6 +324,7 @@ void kdtree2:: spread_in_coordinate(int c, int l, int u, interval& interv) {
 
     if (smin > lmin) 
       smin = lmin;
+
     if (smax <lmax) 
       smax = lmax;
   }
@@ -331,6 +333,7 @@ void kdtree2:: spread_in_coordinate(int c, int l, int u, interval& interv) {
     float last = the_data[ind[u]] [c];
     if (smin>last) 
       smin = last;
+
     if (smax<last) 
       smax = last;
   }
@@ -359,6 +362,7 @@ void kdtree2::select_on_coordinate(int c, int k, int l, int u) {
 
     if (m <= k) 
       l = m+1;
+
     if (m >= k) 
       u = m-1;
   } // while loop
@@ -448,8 +452,7 @@ class searchrecord {
     // constructor
 
   public:
-    searchrecord(vector<float>& qv_in, kdtree2& tree_in,
-           kdtree2_result_vector& result_in) :  
+    searchrecord(vector<float>& qv_in, kdtree2& tree_in, kdtree2_result_vector& result_in) :  
       qv(qv_in),
       result(result_in),
       data(tree_in.data),
@@ -559,8 +562,6 @@ int kdtree2::r_count(vector<float>& qv, float r2) {
     root->search(sr); 
     return(result.size());
   }
-
-  
 }
 
 void kdtree2::r_nearest_around_point(int idxin, int correltime, float r2, kdtree2_result_vector& result) {
@@ -609,8 +610,6 @@ int kdtree2::r_count_around_point(int idxin, int correltime, float r2) {
     root->search(sr); 
     return(result.size());
   }
-
-  
 }
 
 
@@ -670,8 +669,7 @@ void kdtree2_node::search(searchrecord& sr) {
       extra = qval-cut_val_left; 
     };
 
-    if (ncloser != NULL) 
-      ncloser->search(sr);
+    if (ncloser != NULL) ncloser->search(sr);
 
     if ((nfarther != NULL) && (squared(extra) < sr.ballsize)) {
       // first cut
@@ -790,10 +788,8 @@ void kdtree2_node::process_terminal_node(searchrecord& sr) {
       e.idx = indexofi;
       e.dis = dis;
       sr.result.push_element_and_heapify(e); 
-      if (debug) 
-        cout << "unilaterally pushed dis=" << dis;
-      if (sr.result.size() == nn) 
-        ballsize = sr.result.max_value();
+      if (debug) cout << "unilaterally pushed dis=" << dis;
+      if (sr.result.size() == nn) ballsize = sr.result.max_value();
       // Set the ball radius to the largest on the list (maximum priority).
       if (debug) {
         cout << " ballsize = " << ballsize << "\n"; 
