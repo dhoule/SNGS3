@@ -28,6 +28,7 @@
 namespace NWUClustering {
 
   Clusters::~Clusters() {
+
     if(m_pts) {
       m_pts->m_points.clear();
       delete m_pts;
@@ -50,9 +51,12 @@ namespace NWUClustering {
       if(file.is_open()) {
         file.read((char*)&num_points, sizeof(int));
         file.read((char*)&dims, sizeof(int));
+            
+        // cout << "Points " << num_points << " dims " << dims << endl;
 
         // allocate memory for points
         m_pts = new Points;       
+
         m_pts->m_i_dims = dims;
         m_pts->m_i_num_points = num_points;
         
@@ -61,6 +65,7 @@ namespace NWUClustering {
         for(int ll = 0; ll < num_points; ll++)
           m_pts->m_points[ll].resize(dims);
 
+        
         point_coord_type* pt;         
         pt = (point_coord_type*) malloc(dims * sizeof(point_coord_type));
                         
@@ -103,7 +108,7 @@ namespace NWUClustering {
           getline(file, line);
         }
         
-        //cout << "Points " << num_points << " dimensions " << dims << endl;
+        // cout << "Points " << num_points << " dimensions " << dims << endl;
                                
         // allocate memory for points
         m_pts = new Points;
@@ -150,6 +155,7 @@ namespace NWUClustering {
   }
 
   int Clusters::build_kdtree() {
+
     if(m_pts == NULL) {
       cout << "Point set is empty" << endl;
       return -1;
