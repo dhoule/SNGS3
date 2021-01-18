@@ -171,7 +171,7 @@ namespace NWUClustering {
 
     dbs.m_member.resize(dbs.m_pts->m_i_num_points, 0);
     int sch, maxthreads = omp_get_max_threads(); //maximum number of threads available to do work 
-    cout << tid << endl;
+    // cout << tid << endl;
     if(dbs.m_pts->m_i_num_points % maxthreads == 0)
       sch = dbs.m_pts->m_i_num_points/maxthreads;
     else
